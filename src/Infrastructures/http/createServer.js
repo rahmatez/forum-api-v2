@@ -9,11 +9,18 @@ const comments = require("../../Interfaces/http/api/comments");
 
 const createServer = async (container) => {
   const server = Hapi.server({
-    host: process.env.HOST,
-    port: process.env.PORT,
-    debug: {
-      request: ["error"],
+    host: process.env.HOST || '0.0.0.0',
+    port: process.env.PORT || 5000,
+    routes: {
+      cors: {
+        origin: ['*'],
+        headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match'],
+        additionalHeaders: ['cache-control', 'x-requested-with']
+      }
     },
+    debug: process.env.NODE_ENV !== 'production' ? {
+      request: ["error"],
+    } : false,
   });
 
   // registrasi plugin eksternal

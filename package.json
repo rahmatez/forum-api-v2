@@ -9,7 +9,9 @@
     "test": "jest",
     "test:watch": "jest --watchAll --coverage --verbose",
     "migrate": "node-pg-migrate",
-    "migrate:test": "node-pg-migrate -f config/database/test.json"
+    "migrate:test": "node-pg-migrate -f config/database/test.json",
+    "build": "echo 'Build completed successfully'",
+    "vercel-build": "echo 'Vercel build step - no build required for this project'"
   },
   "keywords": [
     "forum",
