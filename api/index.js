@@ -1,5 +1,5 @@
-const createServer = require('../src/Infrastructures/http/createServer');
-const container = require('../src/Infrastructures/container');
+const createServer = require("../src/Infrastructures/http/createServer");
+const container = require("../src/Infrastructures/container");
 
 let server;
 
@@ -13,7 +13,7 @@ const init = async () => {
 module.exports = async (req, res) => {
   try {
     const server = await init();
-    
+
     // Convert Vercel request to Hapi inject format
     const response = await server.inject({
       method: req.method,
@@ -23,23 +23,23 @@ module.exports = async (req, res) => {
     });
 
     // Set response headers
-    Object.keys(response.headers).forEach(key => {
+    Object.keys(response.headers).forEach((key) => {
       res.setHeader(key, response.headers[key]);
     });
 
     // Set status code and send response
     res.status(response.statusCode);
-    
-    if (typeof response.result === 'string') {
+
+    if (typeof response.result === "string") {
       res.send(response.result);
     } else {
       res.json(response.result);
     }
   } catch (error) {
-    console.error('Server error:', error);
+    console.error("Server error:", error);
     res.status(500).json({
-      status: 'error',
-      message: 'Internal server error'
+      status: "error",
+      message: "Internal server error",
     });
   }
 };

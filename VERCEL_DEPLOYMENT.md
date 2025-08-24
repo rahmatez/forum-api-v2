@@ -13,6 +13,7 @@ Panduan deploy Forum API V2 ke Vercel dengan konfigurasi lengkap.
 ### Step 1: Setup Cloud Database
 
 #### Option A: Supabase (Recommended)
+
 ```bash
 1. Visit supabase.com
 2. Create new project
@@ -21,6 +22,7 @@ Panduan deploy Forum API V2 ke Vercel dengan konfigurasi lengkap.
 ```
 
 #### Option B: Railway
+
 ```bash
 1. Visit railway.app
 2. Create PostgreSQL service
@@ -30,12 +32,14 @@ Panduan deploy Forum API V2 ke Vercel dengan konfigurasi lengkap.
 ### Step 2: Deploy to Vercel
 
 1. **Import Project**
+
    - Visit vercel.com
    - Click "New Project"
    - Import from GitHub
    - Select your `forum-api-v2` repository
 
 2. **Configure Build Settings**
+
    - Framework Preset: Other
    - Build Command: `npm run build`
    - Output Directory: (leave empty)
@@ -43,6 +47,7 @@ Panduan deploy Forum API V2 ke Vercel dengan konfigurasi lengkap.
 
 3. **Environment Variables**
    Add these in Vercel dashboard:
+
    ```
    NODE_ENV=production
    DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
@@ -163,14 +168,17 @@ jobs:
 #### Common Issues:
 
 1. **Database Connection Error**
+
    - Check DATABASE_URL format
    - Ensure SSL mode is enabled for cloud databases
 
 2. **JWT Error**
+
    - Verify ACCESS_TOKEN_KEY and REFRESH_TOKEN_KEY are set
    - Keys should be at least 32 characters long
 
 3. **CORS Issues**
+
    - CORS is configured in createServer.js
    - Origin set to ['*'] for all domains
 
