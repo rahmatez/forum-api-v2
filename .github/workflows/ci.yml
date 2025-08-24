@@ -1,0 +1,67 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: forum_api_v2_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: npm install
+        run: npm ci
+
+      - name: run migration
+        run: npm run migrate:test up
+        env:
+          PGHOST_TEST: localhost
+          PGUSER_TEST: postgres
+          PGDATABASE_TEST: forum_api_v2_test
+          PGPASSWORD_TEST: postgres
+          PGPORT_TEST: 5432
+
+      - name: run unit tests
+        run: npm run test -- --coverage
+        env:
+          NODE_ENV: test
+          PGHOST_TEST: localhost
+          PGUSER_TEST: postgres
+          PGDATABASE_TEST: forum_api_v2_test
+          PGPASSWORD_TEST: postgres
+          PGPORT_TEST: 5432
+          ACCESS_TOKEN_KEY: supersecretaccesstokenkey
+          REFRESH_TOKEN_KEY: supersecretrefreshtokenkey
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
