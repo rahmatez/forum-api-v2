@@ -2,6 +2,11 @@
 
 Forum API adalah sebuah RESTful API yang dibangun menggunakan Node.js dan Hapi Framework dengan menerapkan prinsip Clean Architecture. API ini menyediakan fitur autentikasi, manajemen thread, komentar, dan fitur like pada komentar.
 
+## Submission Information
+
+- **Repository URL**: https://github.com/rahmatez/forum-api-v2
+- **Deployed API URL**: https://forum-api-v2.vercel.app/
+
 ## Fitur
 
 ### Fitur Utama
