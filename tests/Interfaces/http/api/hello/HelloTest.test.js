@@ -1,4 +1,4 @@
-const createServer = require('../../../../src/Infrastructures/http/createServer');
+const createServer = require('../../../../../src/Infrastructures/http/createServer');
 
 describe('GET /hello endpoint', () => {
   it('should return 200 and correct message', async () => {
