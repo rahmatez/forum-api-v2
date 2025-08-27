@@ -1,6 +1,6 @@
 {
   "user": "postgres",
-  "password": "your_password",
+  "password": "postgres",
   "host": "localhost",
   "port": 5432,
   "database": "forum_api_v2_test",
