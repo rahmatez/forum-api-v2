@@ -1,5 +1,9 @@
 const createServer = require('../../../../../src/Infrastructures/http/createServer');
 
+// Set environment variables for testing
+process.env.ACCESS_TOKEN_KEY = 'secret_key_for_test';
+process.env.ACCESS_TOKEN_AGE = 3600;
+
 describe('GET /hello endpoint', () => {
   it('should return 200 and correct message', async () => {
     // Arrange
