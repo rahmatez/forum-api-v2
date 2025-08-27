@@ -2,7 +2,7 @@
 
 ## Informasi Proyek
 - **Nama**: Rahmat Ashari
-- **Email**: rahmatez@example.com
+- **Email**: rahmatezdev@gmail.com
 - **URL Repository**: https://github.com/rahmatez/forum-api-v2
 - **URL Deployment**: https://forum-api-v2.vercel.app/
 
