@@ -83,6 +83,18 @@ const createServer = async (container) => {
     }),
   });
 
+  // Add health check endpoint
+  server.route({
+    method: "GET",
+    path: "/health",
+    handler: () => ({
+      status: "success",
+      message: "Server is healthy",
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || "development",
+    }),
+  });
+
   server.ext("onPreResponse", (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;

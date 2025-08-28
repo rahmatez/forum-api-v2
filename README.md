@@ -142,12 +142,39 @@ npm run test:watch
 
 ## CI/CD Implementation
 
-### Continuous Integration
+### Continuous Integration (CI)
 
-- Otomatis testing pada setiap pull request
-- Menjalankan Unit Test, Integration Test, dan Functional Test
-- Menggunakan GitHub Actions dengan PostgreSQL service containers
-- Support untuk multiple Node.js versions (18.x, 20.x)
+- ✅ **Automated Testing**: Testing otomatis pada setiap pull request
+- ✅ **Multiple Node.js Versions**: Support Node.js 18.x dan 20.x
+- ✅ **Database Testing**: PostgreSQL service containers untuk testing
+- ✅ **Code Coverage**: Integrasi dengan Codecov untuk coverage reporting
+- ✅ **Linting & Formatting**: ESLint untuk code quality
+
+**Workflow**: `.github/workflows/ci.yml`
+
+### Continuous Deployment (CD)
+
+- ✅ **Production Deployment**: Otomatis deploy ke Vercel saat push ke branch main
+- ✅ **Health Checks**: Endpoint `/health` untuk monitoring deployment
+- ✅ **Multiple Deployment Options**: Support Vercel dan traditional server deployment
+- ✅ **Environment Management**: Automated environment variable configuration
+- ✅ **Rollback Capability**: Easy rollback untuk deployment yang gagal
+
+**Workflows**: 
+- `.github/workflows/cd.yml` (Vercel deployment)
+- `.github/workflows/cd-server.yml` (Traditional server deployment)
+
+**Production URL**: https://forum-api-v2.vercel.app/
+
+### Deployment Features
+
+1. **Zero Downtime Deployment**: Menggunakan Vercel's serverless infrastructure
+2. **Automatic SSL**: HTTPS enabled by default
+3. **Global CDN**: Fast response times worldwide
+4. **Auto Scaling**: Handle traffic spikes automatically
+5. **Real-time Monitoring**: Built-in analytics and logging
+
+**Setup Guide**: Lihat [CD_SETUP.md](./CD_SETUP.md) untuk panduan lengkap setup deployment.
 
 ### Continuous Deployment
 

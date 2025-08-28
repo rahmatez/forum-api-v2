@@ -1,0 +1,73 @@
+name: Continuous Deployment (Traditional Server)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT || 22 }}
+          script: |
+            # Navigate to application directory
+            cd ${{ secrets.APP_PATH || '~/forum-api-v2' }}
+            
+            # Pull latest changes
+            git pull origin main
+            
+            # Install dependencies
+            npm ci --only=production
+            
+            # Run database migrations
+            npm run migrate up
+            
+            # Restart application (using PM2)
+            pm2 restart forum-api-v2 || pm2 start npm --name "forum-api-v2" -- start
+            
+            # Check deployment status
+            pm2 status forum-api-v2
+
+      - name: Health Check
+        run: |
+          sleep 30
+          curl -f ${{ secrets.PRODUCTION_URL }}/health || exit 1
+
+      - name: Notify deployment success
+        if: success()
+        run: echo "✅ Deployment to ${{ github.event.inputs.environment }} successful!"
+
+      - name: Notify deployment failure
+        if: failure()
+        run: echo "❌ Deployment to ${{ github.event.inputs.environment }} failed!"
