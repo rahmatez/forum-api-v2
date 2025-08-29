@@ -40,6 +40,7 @@ module.exports = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "Internal server error",
+      details: process.env.NODE_ENV === 'development' ? error.message : 'Please check server logs'
     });
   }
 };
